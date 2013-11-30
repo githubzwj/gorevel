@@ -32,7 +32,7 @@ func (c *Qbs) End() revel.Result {
 
 func Init() {
 	basePath = revel.BasePath
-	uploadPath = fmt.Sprintf(basePath + "/public/upload/")
+	uploadPath = basePath + "/public/upload/"
 
 	c, _ := config.ReadDefault(basePath + "/conf/my.conf")
 	driver, _ := c.String("database", "db.driver")

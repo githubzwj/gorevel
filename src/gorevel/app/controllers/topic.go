@@ -6,6 +6,7 @@ import (
 	"github.com/robfig/revel"
 	"gorevel/app/models"
 	"gorevel/app/routes"
+	"time"
 )
 
 type Topic struct {
@@ -85,12 +86,16 @@ func (c *Topic) Show(id int64) revel.Result {
 		return c.NotFound("帖子不存在")
 	}
 
+	topic.Hits += 1
+
 	type Topic struct {
-		Hits int
+		Hits    int
+		Created time.Time
 	}
 
 	t := new(Topic)
-	t.Hits = topic.Hits + 1
+	t.Hits = topic.Hits
+	t.Created = topic.Created
 	c.q.WhereEqual("id", id).Update(t)
 
 	replies := getReplies(c.q, id)
@@ -125,7 +130,6 @@ func (c *Topic) Edit(id int64) revel.Result {
 	title := "编辑帖子"
 
 	topic := findTopicById(c.q, id)
-
 	if topic.Id == 0 {
 		return c.NotFound("帖子不存在")
 	}

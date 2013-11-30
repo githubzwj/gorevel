@@ -170,7 +170,7 @@ func (c *User) Validate(code string) revel.Result {
 
 func findUserById(q *qbs.Qbs, id int64) *models.User {
 	user := new(models.User)
-	q.WhereEqual("user.id", id).Find(user)
+	q.WhereEqual("id", id).Find(user)
 
 	return user
 }
